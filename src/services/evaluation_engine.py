@@ -51,9 +51,16 @@ class EvaluationEngine:
         if input_data.body_language_analysis:
             user_input_parts.append(f"4. 肢体语言分析结果：\n{self._format_body_analysis(input_data.body_language_analysis)}")
         
-        # 5. 文字描述（新增）
+        # 5. 文字描述或复杂JSON数据（新增）
         if input_data.text_description:
-            user_input_parts.append(f"5. 面试情况描述：\n{input_data.text_description}")
+            # 尝试解析JSON，如果失败就当作普通文本处理
+            try:
+                import json
+                parsed_data = json.loads(input_data.text_description)
+                user_input_parts.append(f"5. 面试数据详情：\n{json.dumps(parsed_data, ensure_ascii=False, indent=2)}")
+            except (json.JSONDecodeError, TypeError):
+                # 如果不是JSON格式，就当作普通文本描述
+                user_input_parts.append(f"5. 面试情况描述：\n{input_data.text_description}")
         
         # 6. 处理额外字段
         extra_fields = []

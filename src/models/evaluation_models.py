@@ -8,8 +8,8 @@ class InterviewInput(BaseModel):
     voice_emotion_analysis: Optional[Dict[str, Union[float, int, str]]] = Field(default={}, description="语音情感分析")
     body_language_analysis: Optional[Dict[str, Union[float, int, str]]] = Field(default={}, description="肢体语言分析")
     
-    # 新增：允许用户直接输入文本描述
-    text_description: Optional[str] = Field(default="", description="面试情况的文字描述")
+    # 新增：允许用户直接输入文本描述或复杂JSON数据
+    text_description: Optional[str] = Field(default="", description="面试情况的文字描述，支持复杂JSON字符串")
     
     class Config:
         # 允许任意额外字段
